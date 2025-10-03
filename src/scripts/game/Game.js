@@ -33,12 +33,12 @@ export class Game {
         }
     }
 
-    // createBackground() {
-    //     this.bg = App.sprite("bg");
-    //     this.bg.width = window.innerWidth;
-    //     this.bg.height = window.innerHeight;
-    //     this.container.addChild(this.bg);
-    // }
+    createBackground() {
+        this.bg = App.sprite("bg");
+        this.bg.width = window.innerWidth;
+        this.bg.height = window.innerHeight;
+        this.container.addChild(this.bg);
+    }
 
     onTileClick(tile) {
         if (this.disabled) {
