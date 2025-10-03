@@ -7,15 +7,38 @@ export class Game {
     constructor() {
         this.container = new PIXI.Container();
         this.createBackground();
-
         this.board = new Board();
         this.container.addChild(this.board.container);
-
         this.board.container.on('tile-touch-start', this.onTileClick.bind(this));
-
         this.combinationManager = new CombinationManager(this.board);
         this.removeStartMatches();
+    
+        // Вызываем при загрузке
+        this.resizeGame();
+        // Вешаем обработчик на изменение размера окна
+        window.addEventListener('resize', this.resizeGame.bind(this));
     }
+
+    // В конструкторе или отдельном методе (например, resizeGame)
+resizeGame() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    // Определяем желаемую ширину и высоту игрового поля
+    const desiredWidth = 720; // например, 720px — стандартная ширина для мобильных
+    const desiredHeight = 1280; // например, 1280px — стандартная высота для мобильных
+
+    // Вычисляем масштаб так, чтобы поле влезало по ширине или высоте
+    const scaleX = screenWidth / desiredWidth;
+    const scaleY = screenHeight / desiredHeight;
+    const scale = Math.min(scaleX, scaleY, 1); // не увеличиваем больше оригинального размера
+
+    // Применяем масштаб ко всему контейнеру игры
+    this.container.scale.set(scale);
+    this.container.x = (screenWidth - desiredWidth * scale) / 2;
+    this.container.y = (screenHeight - desiredHeight * scale) / 2;
+}
+
 
     removeStartMatches() {
         let matches = this.combinationManager.getMatches();

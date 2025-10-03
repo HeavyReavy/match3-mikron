@@ -20,7 +20,10 @@ export class Board {
         this.createTiles();
     }
 
-    createTiles() {
+    createTile(field) {
+        const tile = new Tile();
+        tile.sprite.scale.set(this.scale); // где this.scale — вычисленный коэффициент
+        // ... остальной код
         this.fields.forEach(field => this.createTile(field));
     }
 
