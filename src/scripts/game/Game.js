@@ -7,31 +7,14 @@ export class Game {
     constructor() {
         this.container = new PIXI.Container();
         this.createBackground();
+
         this.board = new Board();
         this.container.addChild(this.board.container);
+
         this.board.container.on('tile-touch-start', this.onTileClick.bind(this));
+
         this.combinationManager = new CombinationManager(this.board);
         this.removeStartMatches();
-        this.resizeGame(); // Добавляем вызов метода для масштабирования
-        window.addEventListener('resize', this.resizeGame.bind(this)); // Реагируем на изменение размера окна
-    }
-    
-    resizeGame() {
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const isMobile = screenWidth < 768; // Условие для мобильных устройств
-    
-        // Масштабируем контейнер игры
-        if (isMobile) {
-            const scale = Math.min(screenWidth / 600, screenHeight / 600, 0.7); // 600 - исходный размер, 0.7 - максимальный масштаб для мобильных
-            this.container.scale.set(scale);
-        } else {
-            this.container.scale.set(1);
-        }
-    
-        // Центрируем контейнер
-        this.container.x = (screenWidth - this.container.width * this.container.scale.x) / 2;
-        this.container.y = (screenHeight - this.container.height * this.container.scale.y) / 2;
     }
 
     removeStartMatches() {
