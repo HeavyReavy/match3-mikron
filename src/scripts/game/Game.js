@@ -35,9 +35,27 @@ export class Game {
 
     createBackground() {
         this.bg = App.sprite("bg");
-        this.bg.width = window.innerWidth;
-        this.bg.height = window.innerHeight;
         this.container.addChild(this.bg);
+    
+        // Получаем размеры окна
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+    
+        // Получаем размеры текстуры фона
+        const bgWidth = this.bg.texture.width;
+        const bgHeight = this.bg.texture.height;
+    
+        // Вычисляем масштаб, чтобы фон покрывал весь экран
+        const scaleX = screenWidth / bgWidth;
+        const scaleY = screenHeight / bgHeight;
+        const scale = Math.max(scaleX, scaleY);
+    
+        // Применяем масштаб
+        this.bg.scale.set(scale);
+    
+        // Центрируем фон
+        this.bg.x = (screenWidth - bgWidth * scale) / 2;
+        this.bg.y = (screenHeight - bgHeight * scale) / 2;
     }
 
     onTileClick(tile) {
